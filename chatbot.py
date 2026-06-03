@@ -59,7 +59,7 @@ class BasicChatBot:
 
 
 def main():
-    API_KEY = "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"
+    API_KEY = ""
     BASE_URL = "https://openrouter.ai/api/v1"
     MODEL = "openrouter/free"
 
