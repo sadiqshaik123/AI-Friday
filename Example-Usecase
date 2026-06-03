@@ -1,0 +1,31 @@
+Step 1 : - Take an input from user and display the output.
+
+Step 2: - Make your program a Domain expert and make sure that the system do not respond any outside query.
+
+Step 3 : - Take a production log file and generate a intelligent summary.
+
+Step 4 :- 
+
+SAMPLE Statement
+
+
+Title:
+
+Green prompt: Real time carbon footprint estimator for sustainable AI usage
+
+Problem statement: 
+
+Enterprise integrating Large language models into workflows lack visibility into the environmental impact of AI usage, with no standardized method to measure CO2e emissions per prompt. This obscures sustainability reporting and risks undermining Net zero commitments. There is a need for a modular cloud-agnostic solution that provides real time carbon foot print estimation, enabling enterprise to optimize AI usage for environment and cost efficiency
+
+
+Data Requirements:
+
+LLM API usage logs including token counts and model metadata, hardware and datacenter efficiency, regional carbon intensity data(e.g. Electricity MAP API) user and team metadata. Data volume depends on AI usage frequency but requires near real-time processing. Data privacy and security compliance are mandatory synthetic usage data can support development testing
+
+Expected Output /demonstration of solution:
+
+A cloud-native, lightweight module providing real-time LLM carbon footprint estimation integrated into AI workflows and dashboards. Includes APIs for integration with chatbots, copilots, and developer tools. Detailed documentation, sustainability reporting templates, and test suites validating calculation accuracy and integration robustness. Demonstrated capability to inform and reduce AI carbon footprint without  impacting user experience. Designed for enterprise-wide deployment across multi-cloud environments
+
+
+lang graphs 
+agents
