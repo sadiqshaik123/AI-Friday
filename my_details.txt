@@ -1,0 +1,12 @@
+
+Name: Shaik Sadiq
+Company: TCS
+Experience: 2.3 Years
+Skills:
+Java
+Spring Boot
+Vert.x
+Docker
+JUnit
+Jenkins
+GitHub
