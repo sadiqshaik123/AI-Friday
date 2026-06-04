@@ -1,6 +1,11 @@
 
 # RAG Chatbot with OpenRouter
 
+```bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
 ## Install
 
 pip install -r requirements.txt
