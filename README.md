@@ -1,326 +1,228 @@
-# Green Prompt - Real-Time Carbon Footprint Estimator for Sustainable AI Usage
+# Basic LLM Chatbot using LangChain and OpenRouter
 
-## Problem Statement
+## Overview
 
-Organizations integrating Large Language Models (LLMs) into their workflows often lack visibility into the environmental impact of AI usage.
+This project is a simple command-line chatbot built using LangChain and OpenRouter.
 
-This project provides:
-
-* Real-time carbon footprint estimation
-* AI sustainability monitoring
-* Production log analysis
-* Executive summaries
-* Optimization recommendations
-
-The goal is to help enterprises reduce AI-related carbon emissions while maintaining productivity.
+The chatbot accepts user input from the terminal, sends it to a Large Language Model (LLM) through OpenRouter, and displays the AI-generated response.
 
 ---
 
-# Features
+## Features
 
-## Step 1 - User Interaction
-
-Accepts user questions regarding:
-
-* AI Sustainability
-* Carbon Emissions
-* Green AI
-* LLM Usage
-* CO2 Reporting
-
-Example:
-
-```text
-What is today's carbon footprint?
-```
+* Interactive command-line chatbot
+* Powered by OpenRouter
+* Uses LangChain ChatOpenAI integration
+* Continuous conversation loop
+* Exit command to stop the application
 
 ---
 
-## Step 2 - Domain Expert Restriction
-
-The application acts as a sustainability domain expert.
-
-Allowed Topics:
-
-* Carbon Footprint
-* CO2 Emissions
-* Sustainable AI
-* Green Computing
-* AI Energy Consumption
-
-Rejected Topics:
+## Project Structure
 
 ```text
-Who won IPL?
-```
-
-```text
-What is Java?
-```
-
----
-
-## Step 3 - Production Log Analysis
-
-Reads production log files.
-
-Example:
-
-```csv
-timestamp,model,input_tokens,output_tokens,user
-2026-06-01,openrouter/free,1200,400,john
-2026-06-01,openrouter/free,2000,800,sarah
-```
-
-Extracts:
-
-* Total Requests
-* Total Input Tokens
-* Total Output Tokens
-* Total Tokens Consumed
-
----
-
-## Step 4 - Carbon Footprint Estimation
-
-Formula:
-
-```text
-CO2e = Total Tokens × Emission Factor
-```
-
-Current Formula:
-
-```python
-carbon = total_tokens * 0.0000005
-```
-
-Future versions can integrate:
-
-* ElectricityMap API
-* Azure Sustainability APIs
-* AWS Customer Carbon Footprint Tool
-
----
-
-## Step 5 - Intelligent Summary
-
-Generates:
-
-### Executive Summary
-
-Example:
-
-```text
-Total Requests: 2
-Total Tokens: 4400
-Estimated CO2e: 0.0022 kg
-```
-
-### Optimization Recommendations
-
-Example:
-
-```text
-Reduce prompt length
-Cache repeated responses
-Use smaller models
-Move workloads to low-carbon regions
-```
-
----
-
-# Project Architecture
-
-```text
-User
- │
- ▼
-Domain Guard Agent
- │
- ▼
-Log Parser Agent
- │
- ▼
-Carbon Estimator Agent
- │
- ▼
-Summary Agent
- │
- ▼
-Recommendation Agent
- │
- ▼
-Final Report
-```
-
----
-
-# Folder Structure
-
-```text
-green_prompt_complete/
+project/
 │
 ├── app.py
 ├── requirements.txt
-├── .env.example
-│
-├── agents/
-│   ├── domain_guard.py
-│   ├── log_parser.py
-│   ├── carbon_estimator.py
-│   ├── summary_agent.py
-│   └── recommendation_agent.py
-│
-├── data/
-│   └── sample_logs.csv
-│
 └── README.md
 ```
 
 ---
 
-# API Key Configuration
+## Prerequisites
 
-Create a file named:
+* Python 3.10 or higher
+* Internet connection
+* OpenRouter API Key
+
+---
+
+## Create Virtual Environment
+
+### Windows
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+### Linux / Mac
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## Install Dependencies
+
+Install the required packages:
+
+```bash
+pip install langchain-openai
+pip install langchain-core
+pip install httpx
+```
+
+Or install everything at once:
+
+```bash
+pip install langchain-openai langchain-core httpx
+```
+
+---
+
+## requirements.txt
 
 ```text
-.env
+langchain-openai
+langchain-core
+httpx
 ```
 
-Add:
+---
 
-```env
-OPENROUTER_API_KEY=your_openrouter_api_key
+## Application Code
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage
+
+import httpx
+
+client = httpx.Client(verify=False)
+
+llm = ChatOpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    model="openrouter/free",
+    api_key="YOUR_OPENROUTER_API_KEY",
+    http_client=client
+)
+
+while True:
+    user_input = input("User: ")
+
+    if user_input.lower() == "exit":
+        break
+
+    print("AI:", llm.invoke(user_input).content)
 ```
+
+---
+
+## Configure API Key
+
+Replace the API key in the code:
+
+```python
+api_key="YOUR_OPENROUTER_API_KEY"
+```
+
+For production applications, use environment variables instead.
 
 Example:
 
-```env
-OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxx
+```python
+import os
+
+api_key = os.getenv("OPENROUTER_API_KEY")
+```
+
+### Windows
+
+```powershell
+set OPENROUTER_API_KEY=your_api_key
+```
+
+### Linux / Mac
+
+```bash
+export OPENROUTER_API_KEY=your_api_key
 ```
 
 ---
 
-# Installation
+## Running the Application
 
-## Step 1 - Create Virtual Environment
-
-Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-Linux/Mac
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
----
-
-## Step 2 - Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Running the Application
-
-Run:
+Run the chatbot using:
 
 ```bash
 python app.py
 ```
 
-Expected Output:
+---
+
+## Sample Execution
 
 ```text
-Ask a sustainability question:
-```
+User: Hi
+AI: Hello! How can I assist you today?
 
-Example:
+User: What is Artificial Intelligence?
+AI: Artificial Intelligence (AI) is a branch of computer science that enables machines to perform tasks that typically require human intelligence.
 
-```text
-Ask a sustainability question:
-Estimate carbon footprint
-```
-
-Output:
-
-```text
-=== SUMMARY ===
-
-Requests: 2
-Input Tokens: 3200
-Output Tokens: 1200
-Estimated CO2e: 0.0022 kg
-
-=== RECOMMENDATIONS ===
-
-1. Reduce prompt length
-2. Cache repeated responses
-3. Use smaller models
-4. Schedule workloads in low-carbon regions
+User: exit
 ```
 
 ---
 
-# Future Roadmap
+## How It Works
 
-## Phase 1
-
-* Domain Expert Chatbot
-* Log Analysis
-* Carbon Calculation
-
-## Phase 2
-
-* OpenRouter LLM Integration
-* Intelligent Sustainability Reports
-
-## Phase 3
-
-* RAG (FAISS + Sustainability Policies)
-* Carbon Knowledge Base
-
-## Phase 4
-
-* LangGraph Multi-Agent Workflow
-* Supervisor Agent
-* Tool Calling
-
-## Phase 5
-
-* Streamlit Dashboard
-* Real-Time Monitoring
-* Enterprise Deployment
+1. The user enters a question or message.
+2. The input is sent to OpenRouter through LangChain.
+3. The selected LLM processes the request.
+4. The AI response is returned and displayed in the terminal.
+5. The process repeats until the user enters `exit`.
 
 ---
 
-# Technologies Used
+## Common Issues
+
+### ModuleNotFoundError
+
+Install the missing package:
+
+```bash
+pip install <package-name>
+```
+
+### SSL Certificate Errors
+
+If SSL verification issues occur, the application uses:
+
+```python
+httpx.Client(verify=False)
+```
+
+for development purposes.
+
+### Invalid API Key
+
+Verify that your OpenRouter API key is valid and active.
+
+---
+
+## Technologies Used
 
 * Python
-* OpenRouter
-* OpenAI SDK
-* Pandas
-* LangGraph
 * LangChain
-* FAISS
-* Sentence Transformers
-* Streamlit
+* OpenRouter
+* HTTPX
 
 ---
 
-# Business Value
+## Future Enhancements
 
-* Supports Net-Zero Initiatives
-* Tracks AI Carbon Emissions
-* Improves Sustainability Reporting
-* Optimizes AI Usage Costs
-* Enables Enterprise-Wide AI Governance
+* Conversation memory
+* Chat history persistence
+* Streamlit web interface
+* Multi-model selection
+* RAG (Retrieval-Augmented Generation) support
+
+---
+
+## Author
+
+Developed as a beginner-friendly LangChain chatbot demonstrating OpenRouter integration and conversational AI.
