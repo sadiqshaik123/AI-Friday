@@ -1,326 +1,221 @@
-# Green Prompt - Real-Time Carbon Footprint Estimator for Sustainable AI Usage
+# PDF Question Answering with LangChain, ChromaDB, and OpenRouter
 
-## Problem Statement
+## Overview
 
-Organizations integrating Large Language Models (LLMs) into their workflows often lack visibility into the environmental impact of AI usage.
+This application allows users to upload a PDF document, extract its content, create embeddings, store them in a Chroma vector database, and generate summaries using a Large Language Model (LLM).
 
-This project provides:
+The application is built using:
 
-* Real-time carbon footprint estimation
-* AI sustainability monitoring
-* Production log analysis
-* Executive summaries
-* Optimization recommendations
-
-The goal is to help enterprises reduce AI-related carbon emissions while maintaining productivity.
-
----
-
-# Features
-
-## Step 1 - User Interaction
-
-Accepts user questions regarding:
-
-* AI Sustainability
-* Carbon Emissions
-* Green AI
-* LLM Usage
-* CO2 Reporting
-
-Example:
-
-```text
-What is today's carbon footprint?
-```
+* Streamlit
+* LangChain
+* ChromaDB
+* OpenRouter LLM
+* Google Embeddings
+* PDFMiner
 
 ---
 
-## Step 2 - Domain Expert Restriction
+## Features
 
-The application acts as a sustainability domain expert.
-
-Allowed Topics:
-
-* Carbon Footprint
-* CO2 Emissions
-* Sustainable AI
-* Green Computing
-* AI Energy Consumption
-
-Rejected Topics:
-
-```text
-Who won IPL?
-```
-
-```text
-What is Java?
-```
+* Upload PDF documents
+* Extract text from PDFs
+* Split text into chunks
+* Generate embeddings
+* Store embeddings in ChromaDB
+* Retrieve relevant document chunks
+* Generate document summaries using an LLM
 
 ---
 
-## Step 3 - Production Log Analysis
-
-Reads production log files.
-
-Example:
-
-```csv
-timestamp,model,input_tokens,output_tokens,user
-2026-06-01,openrouter/free,1200,400,john
-2026-06-01,openrouter/free,2000,800,sarah
-```
-
-Extracts:
-
-* Total Requests
-* Total Input Tokens
-* Total Output Tokens
-* Total Tokens Consumed
-
----
-
-## Step 4 - Carbon Footprint Estimation
-
-Formula:
+## Project Structure
 
 ```text
-CO2e = Total Tokens × Emission Factor
-```
-
-Current Formula:
-
-```python
-carbon = total_tokens * 0.0000005
-```
-
-Future versions can integrate:
-
-* ElectricityMap API
-* Azure Sustainability APIs
-* AWS Customer Carbon Footprint Tool
-
----
-
-## Step 5 - Intelligent Summary
-
-Generates:
-
-### Executive Summary
-
-Example:
-
-```text
-Total Requests: 2
-Total Tokens: 4400
-Estimated CO2e: 0.0022 kg
-```
-
-### Optimization Recommendations
-
-Example:
-
-```text
-Reduce prompt length
-Cache repeated responses
-Use smaller models
-Move workloads to low-carbon regions
-```
-
----
-
-# Project Architecture
-
-```text
-User
- │
- ▼
-Domain Guard Agent
- │
- ▼
-Log Parser Agent
- │
- ▼
-Carbon Estimator Agent
- │
- ▼
-Summary Agent
- │
- ▼
-Recommendation Agent
- │
- ▼
-Final Report
-```
-
----
-
-# Folder Structure
-
-```text
-green_prompt_complete/
+project/
 │
 ├── app.py
 ├── requirements.txt
-├── .env.example
-│
-├── agents/
-│   ├── domain_guard.py
-│   ├── log_parser.py
-│   ├── carbon_estimator.py
-│   ├── summary_agent.py
-│   └── recommendation_agent.py
-│
-├── data/
-│   └── sample_logs.csv
-│
 └── README.md
 ```
 
 ---
 
-# API Key Configuration
+## Prerequisites
 
-Create a file named:
+* Python 3.10 or higher
+* Internet connection
+* OpenRouter API Key
+* Google Embedding API Key
+
+---
+
+## Create Virtual Environment
+
+### Windows
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+### Linux / Mac
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## Install Dependencies
+
+Install all required packages:
+
+```bash
+pip install streamlit
+pip install pdfminer.six
+pip install langchain
+pip install langchain-openai
+pip install langchain-community
+pip install langchain-classic
+pip install langchain-text-splitters
+pip install chromadb
+pip install httpx
+pip install tiktoken
+```
+
+Or install everything at once:
+
+```bash
+pip install streamlit pdfminer.six langchain langchain-openai langchain-community langchain-classic langchain-text-splitters chromadb httpx tiktoken
+```
+
+---
+
+## requirements.txt
 
 ```text
-.env
+streamlit
+pdfminer.six
+langchain
+langchain-openai
+langchain-community
+langchain-classic
+langchain-text-splitters
+chromadb
+httpx
+tiktoken
 ```
 
-Add:
+---
 
-```env
-OPENROUTER_API_KEY=your_openrouter_api_key
-```
+## Configure API Keys
+
+Replace the API keys in `app.py` with your own credentials.
 
 Example:
 
-```env
-OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxx
+```python
+api_key="YOUR_OPENROUTER_API_KEY"
+```
+
+```python
+api_key="YOUR_EMBEDDING_API_KEY"
+```
+
+For production applications, store keys in environment variables instead of hardcoding them.
+
+Example:
+
+```python
+import os
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+EMBEDDING_API_KEY = os.getenv("EMBEDDING_API_KEY")
 ```
 
 ---
 
-# Installation
+## Running the Application
 
-## Step 1 - Create Virtual Environment
-
-Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-Linux/Mac
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
----
-
-## Step 2 - Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Running the Application
-
-Run:
+Do NOT run Streamlit applications using:
 
 ```bash
 python app.py
 ```
 
-Expected Output:
+Instead run:
 
-```text
-Ask a sustainability question:
+```bash
+streamlit run app.py
 ```
 
-Example:
+or
 
-```text
-Ask a sustainability question:
-Estimate carbon footprint
-```
-
-Output:
-
-```text
-=== SUMMARY ===
-
-Requests: 2
-Input Tokens: 3200
-Output Tokens: 1200
-Estimated CO2e: 0.0022 kg
-
-=== RECOMMENDATIONS ===
-
-1. Reduce prompt length
-2. Cache repeated responses
-3. Use smaller models
-4. Schedule workloads in low-carbon regions
+```bash
+python -m streamlit run app.py
 ```
 
 ---
 
-# Future Roadmap
+## Access the Application
 
-## Phase 1
+After starting Streamlit, open:
 
-* Domain Expert Chatbot
-* Log Analysis
-* Carbon Calculation
+```text
+http://localhost:8501
+```
 
-## Phase 2
-
-* OpenRouter LLM Integration
-* Intelligent Sustainability Reports
-
-## Phase 3
-
-* RAG (FAISS + Sustainability Policies)
-* Carbon Knowledge Base
-
-## Phase 4
-
-* LangGraph Multi-Agent Workflow
-* Supervisor Agent
-* Tool Calling
-
-## Phase 5
-
-* Streamlit Dashboard
-* Real-Time Monitoring
-* Enterprise Deployment
+in your browser.
 
 ---
 
-# Technologies Used
+## How to Use
 
-* Python
-* OpenRouter
-* OpenAI SDK
-* Pandas
-* LangGraph
-* LangChain
-* FAISS
-* Sentence Transformers
+1. Launch the application.
+2. Upload a PDF file.
+3. Wait for text extraction and vector store creation.
+4. The application will generate a summary of the uploaded document.
+5. Review the generated summary.
+
+---
+
+## Common Issues
+
+### ModuleNotFoundError
+
+Install missing dependencies:
+
+```bash
+pip install <package-name>
+```
+
+### No Space Left on Device
+
+Clean pip cache:
+
+```bash
+pip cache purge
+```
+
+Delete temporary files:
+
+```text
+C:\Users\<username>\AppData\Local\Temp
+```
+
+---
+
+## Technologies Used
+
 * Streamlit
+* LangChain
+* ChromaDB
+* OpenRouter
+* PDFMiner
+* HTTPX
 
 ---
 
-# Business Value
+## Author
 
-* Supports Net-Zero Initiatives
-* Tracks AI Carbon Emissions
-* Improves Sustainability Reporting
-* Optimizes AI Usage Costs
-* Enables Enterprise-Wide AI Governance
+Developed as a PDF Question Answering and Summarization application using Retrieval-Augmented Generation (RAG) concepts.
